@@ -149,14 +149,47 @@ class TestAmazonDuration(unittest.TestCase):
 
 class TestAmazonFourDigitNumber(unittest.TestCase):
     def test_instantiation(self):
-        obj = amazonndt.AmazonFourDigitNumber("blah")
-        self.assertTrue(obj is not None)
+        obj = amazonndt.AmazonFourDigitNumber("1234")
+        self.assertEqual(obj.fdn, 1234)
+        self.assertEqual(obj.fdn_str, "1234")
+
+    def test_negative_out_of_bounds(self):
+        with self.assertRaises(ValueError):
+            obj = amazonndt.AmazonFourDigitNumber("-1")
+
+    def test_positive_out_of_bounds(self):
+        with self.assertRaises(ValueError):
+            obj = amazonndt.AmazonFourDigitNumber("10000")
+
+    def test_not_a_number(self):
+        with self.assertRaises(ValueError):
+            obj = amazonndt.AmazonFourDigitNumber("abcd")
+
+    def test_none(self):
+        with self.assertRaises(ValueError):
+            obj = amazonndt.AmazonFourDigitNumber(None)
 
 
 class TestAmazonNumber(unittest.TestCase):
     def test_instantiation(self):
-        obj = amazonndt.AmazonNumber("blah")
-        self.assertTrue(obj is not None)
+        obj = amazonndt.AmazonNumber("1234")
+        self.assertEqual(obj.number, 1234)
+        self.assertEqual(obj.number_str, "1234")
+
+    def test_negative_number(self):
+        # assuming Amazon handles negative numbers, need to test out
+        obj = amazonndt.AmazonNumber("-1234")
+        self.assertEqual(obj.number, -1234)
+        self.assertEqual(obj.number_str, "-1234")
+
+    def test_not_a_number(self):
+        with self.assertRaises(ValueError):
+            obj = amazonndt.AmazonNumber("abcd")
+
+    def test_none(self):
+        with self.assertRaises(ValueError):
+            obj = amazonndt.AmazonNumber(None)
+
 
 
 class TestAmazonTime(unittest.TestCase):

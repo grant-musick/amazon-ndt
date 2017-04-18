@@ -200,19 +200,45 @@ class AmazonDuration(object):
 
 
 
-
-# TODO: ACTUALLY IMPLEMENT THESE
-
 class AmazonFourDigitNumber(object):
     def __init__(self, fdn_str):
+        try:
+            value = int(fdn_str)
+        except:
+            raise ValueError("Unable to parse {0} as a number".format(fdn_str))
+        
+        if not (0 <= value < 10000):
+            raise ValueError("Parsed number {0} is not between 0 and 10000".format(value))
+
         self._fdn_str = fdn_str
-        self._fdn = None
+        self._fdn = value
+
+    @property
+    def fdn(self):
+        return self._fdn
+
+    @property
+    def fdn_str(self):
+        return self._fdn_str
 
 
 class AmazonNumber(object):
     def __init__(self, number_str):
+        try:
+            value = int(number_str)
+        except:
+            raise ValueError("Unable to parse {0} as a number".format(number_str))
         self._number_str = number_str
-        self._number = None
+        self._number = value
+
+    @property
+    def number(self):
+        return self._number
+
+    @property
+    def number_str(self):
+        return self._number_str
+
 
 
 class AmazonTime(object):
